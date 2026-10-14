@@ -1,0 +1,27 @@
+#1
+#导入random模块，用于生成随机小数
+import random
+#定义函数Print_values（a，b，c），用来判断三个数大小并按规则输出
+#若a>b，再判断b>c，满足则直接输出a，b，c，不满足时继续比较a、c大小，a>c输出a，c，b，否则输出c，a，b
+#若a<=b，b>c时不输出，所以转换为当b<=c时输出c，b，a
+def Print_values(a, b, c):
+    if a > b:                     
+        if b > c:                 
+            print(a, b, c)        
+        else:                      
+            if a > c:             
+                print(a, c, b)    
+            else:                 
+                print(c, a, b)    
+    else:                          
+        if b <= c:
+            print(c, b, a)  
+#生成3个0~1之间的随机数 a、b、c，依次打印出这三个原始随机值，检查后面输出是否正确
+a = random.random()
+b = random.random()
+c = random.random()
+print(a)
+print(b)
+print(c)
+#调用Print_values（a，b，c），输出结果。
+Print_values(a, b, c)

@@ -1,0 +1,57 @@
+#2.1
+#导入random模块，用于生成随机整数
+import random
+
+#先定义空列表M1
+M1 = []
+#外层for循环执行5次，对应5行
+for i in range(5):
+    #每一轮外层循环先建立空的line代表一行
+    line = []
+    #内层循环执行10次
+    for j in range(10):
+        #每次生成0~50的随机整数
+        num = random.randint(0,50)
+        #用append把数字加入line
+        line.append(num)
+    #一行填充完毕，再用append把这一行添加到M1，循环结束得到5行10列的M1
+    M1.append(line)
+
+#构建10行5列的矩阵M2，与M1的构建逻辑相同
+M2 = []
+for i in range(10):
+    line = []
+    for j in range(5):
+        num = random.randint(0,50)
+        line.append(num)
+    M2.append(line)
+
+#2.2
+#定义函数Matrix_multip(M1, M2)
+def Matrix_multip(M1, M2):
+    #矩阵相乘的规则M3[i][j] = M1[i][0] * M2[0][j]+ M1[i][1] * M2[1][j]+ ...+ M1[i][9] * M2[9][j]，最后会形成以5行5列的矩阵
+    #创建一个5行5列、全部元素为0的result矩阵，用来存放相乘结果。
+    result = [
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0]
+    ]
+
+    #第一层循环i遍历M1的5行，第二层循环j遍历结果矩阵的 5 列，第三层循环k遍历M1的10列和M2的10行
+    for i in range(5):
+        for j in range(5):
+            for k in range(10):
+                #循环内执行result[i][j] = M1[i][k] * M2[k][j]，完成对应位置元素相乘，循环结束后返回result
+                result[i][j] = result[i][j] + M1[i][k] * M2[k][j]
+
+    return result
+
+#调用函数得到矩阵乘积M3
+M3 = Matrix_multip(M1, M2)
+
+#输出M1、M2和计算结果M3
+print("M1 =", M1)
+print("M2 =", M2)
+print("M1 * M2 =", M3)

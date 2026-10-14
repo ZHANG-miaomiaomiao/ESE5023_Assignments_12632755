@@ -1,0 +1,22 @@
+#3
+#定义函数Pascal_triangle(k)，用来生成帕斯卡三角形目标行
+def Pascal_triangle(k):
+    #设置初始行line = [1]，作为帕斯卡三角形的起始一行
+    line = [1]
+
+    #进入外层循环，一共循环k次。每一轮循环都根据当前line生成新一行
+    for i in range(k):
+        #新行最左边固定是数字1
+        #用i作为下标遍历当前行，取相邻两个元素line[i]和line[i+1]相加，算出新行中间的所有数字
+        #新行最右边固定补上数字1，把拼接好的整行存入变量line。
+        line = [1] + [
+            line[j] + line[j + 1]
+            for j in range(len(line) - 1)
+        ] + [1]
+        
+    #循环全部结束后，输出最终得到的这一行数字。
+    print(line)
+
+#调用Pascal_triangle(100)和Pascal_triangle(200)，分别输出两次运算的结果行
+Pascal_triangle(100)
+Pascal_triangle(200)

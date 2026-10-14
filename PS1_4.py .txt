@@ -1,0 +1,25 @@
+#4
+#定义函数Least_moves(x)，x代表我们的目标金额，函数代表我们从1元开始通过增加或者翻倍得到目标金额需要的最少步数
+def Least_moves(x):
+    #设置count来计算最少的步数，起始的步数为0
+    count = 0
+    #设置money = x，把目标金额赋值给money。通过从目标金额倒退回1计算最少步数
+    money = x
+    
+    #只要money大于1，就一直循环
+    while money > 1:
+        #如果money % 2 == 0，目标金额取余为0，说明目标金额是偶数，上一步是翻倍，执行money = money // 2
+        if money % 2 == 0:
+            money = money // 2
+        #如果不是偶数，就是奇数，上一步只能是加1，执行money = money - 1
+        else:
+            money = money - 1
+        #每执行一次操作，count = count + 1，步数加1
+        count = count + 1
+
+    #输出count
+    print(count)
+
+#调用Least_moves(2)和Least_moves(5)，输出这两个数字对应的最少步数
+Least_moves(2)
+Least_moves(5)

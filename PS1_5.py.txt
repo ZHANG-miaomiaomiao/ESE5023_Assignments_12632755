@@ -1,0 +1,93 @@
+#5.1
+#导入random模块，用于生成随机整数
+import random
+
+#定义函数Find_expression，参数target是我们想要算式等于的目标值，定义digits，固定存放1-9的序列，顺序不变
+def Find_expression(target):
+    digits = "123456789"
+#定义递归函数，pos 表示接下来要使用 digits 的哪个下标，current_expr 是当前已经拼好的表达式
+    def dfs(pos, current_expr):
+        #如果 pos 已经等于字符串长度，说明 9 个数字都处理完了，到达递归终点
+        if pos == len(digits):
+            #用 eval 计算当前表达式的结果，并判断是否等于目标值
+            if eval(current_expr) == target:
+                #如果相等，就输出表达式等于目标值的算式，结束本次递归
+                print(current_expr + " = " + str(target))
+            return
+
+        #for循环，从当前 pos 位置开始，尝试截取连续数字。每次尝试 “截取 1 位、连续 2 位、连续 3 位……”，得到不同的数字，再分别加上加号或者减号继续往下试
+        #i代表结束截取的下标
+        for i in range(pos, len(digits)):
+            #取出从 pos 到 i 的连续字符，作为一个数字字符串
+            num_str = digits[pos:i + 1]
+            #在当前表达式后面加入 +数字块，然后从 i + 1 继续递归
+            dfs(i + 1, current_expr + "+" + num_str)
+            #在当前表达式后面加入 -数字块，然后继续递归
+            dfs(i + 1, current_expr + "-" + num_str)
+
+    #从下标 1 开始递归，并把数字 1 作为表达式的开头
+    dfs(1, "1")
+
+
+# 随机生成一个 1 到 100 之间的整数
+target = random.randint(1, 100)
+#输出目标值50的表达式
+Find_expression(50)
+
+
+# 5.2
+# 创建一个空列表
+Total_solutions = []
+
+# 使用 for 循环执行101次，长度为101，从0开始计算到100
+for i in range(101):
+    Total_solutions.append(0)
+
+# 定义digits，固定存放1-9的序列，顺序不变
+digits = "123456789"
+
+# 定义递归统计函数，统计算式数量，pos 表示接下来要使用 digits 的哪个下标，current_expr 是当前已经拼好的表达式
+def count_dfs(pos, current_expr):
+
+    #如果 pos 已经等于字符串长度，说明 9 个数字都处理完了，到达递归终点
+    if pos == len(digits):
+        # 计算当前表达式的值
+        value = eval(current_expr)
+
+        # 只统计结果在 1 到 100 之间的表达式
+        if 1 <= value <= 100:
+            # 如果结果符合范围，对应的下标计数加1，结束本次递归
+            Total_solutions[value] = Total_solutions[value] + 1
+        return
+
+    #for循环，从当前 pos 位置开始，尝试截取连续数字。每次尝试 “截取 1 位、连续 2 位、连续 3 位……”，得到不同的数字，再分别加上加号或者减号继续往下试
+    #i代表结束截取的下标
+    for i in range(pos, len(digits)):
+        #取出从 pos 到 i 的连续字符，作为一个数字字符串
+        num_str = digits[pos:i + 1]
+        #在当前表达式后面加入 +数字块，然后从 i + 1 继续递归
+        count_dfs(i + 1, current_expr + "+" + num_str)
+        #在当前表达式后面加入 -数字块，然后继续递归
+        count_dfs(i + 1, current_expr + "-" + num_str)
+
+
+#从下标 1 开始递归，并把数字 1 作为表达式的开头
+count_dfs(1, "1")
+
+#循环遍历数字 1 到 100
+for i in range(1, 101):
+    #数字占 3 个字符宽度，靠右对齐，数字 i 的解数量有多少，就打印多少个星号
+    print(str(i).rjust(3), "*" * Total_solutions[i])
+
+#数字 1~100 对应的解数量，求其中最大和最小的解个数。
+max_count = max(Total_solutions[1:])
+min_count = min(Total_solutions[1:])
+
+# 找出解数量最多对应的数字
+max_numbers = [i for i in range(1, 101) if Total_solutions[i] == max_count]
+
+# 找出解数量最少对应的数字
+min_numbers = [i for i in range(1, 101) if Total_solutions[i] == min_count]
+
+print("\nMaximum:", max_numbers, max_count)
+print("Minimum:", min_numbers, min_count)
